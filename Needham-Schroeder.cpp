@@ -108,7 +108,7 @@ void needhamSchroederProtocol() {
 // 生成用于加密操作的随机字节
 bool generateRandomBytes(unsigned char* buffer, int length) {
     if (!RAND_bytes(buffer, length)) {
-        std::cerr << "错误: 生成随机字节失败!" << std::endl;
+        std::cerr << RED << "错误: 生成随机字节失败!" << RESET << std::endl;
         return false;
     }
     return true;
@@ -191,7 +191,7 @@ void aesDecrypt(const unsigned char* input, const unsigned char* key, const unsi
     outLength = len;
     int finalLen;
     if (EVP_DecryptFinal_ex(ctx, output + len, &finalLen) <= 0) {   // 处理最终的解密块，OpenSSL 自动处理PKCS#7填充的移除
-        std::cerr << "错误: 解密失败!" << std::endl;
+        std::cerr << RED << "错误: 解密失败!" << RESET << std::endl;
         EVP_CIPHER_CTX_free(ctx);
         return;
     }
@@ -202,7 +202,7 @@ void aesDecrypt(const unsigned char* input, const unsigned char* key, const unsi
 // 初始化用户的构造函数
 User::User(const char* id) : userId(id) {
     if (!generateRandomBytes(key, AES_KEY_LENGTH) || !generateRandomBytes(iv, AES_IV_LENGTH)) {
-        std::cerr << "错误: 密钥生成失败!" << std::endl;
+        std::cerr << RED << "错误: 密钥生成失败!" << RESET << std::endl;
         exit(1);
     }
 }
